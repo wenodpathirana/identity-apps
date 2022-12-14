@@ -159,11 +159,6 @@ const IdentityProvidersPage: FunctionComponent<IDPPropsInterface> = (props: IDPP
                         return;
                     }
 
-                    // TODO: Remove this filter to display SMS OTP once the backend changes are complete.
-                    if(authenticator.id === IdentityProviderManagementConstants.SMS_OTP_AUTHENTICATOR_ID){
-                        return;
-                    }
-
                     if (authenticator.id === IdentityProviderManagementConstants.FIDO_AUTHENTICATOR_ID) {
                         authenticator.tags = [ ...identityProviderConfig.filterFidoTags(authenticator?.tags) ];
                     }
@@ -177,10 +172,13 @@ const IdentityProvidersPage: FunctionComponent<IDPPropsInterface> = (props: IDPP
                         authenticator.id
                     );
 
+                    console.log(authenticator.id, authenticatorConfig);
+
                     // If authenticator is configurable, evaluate...
                     if (authenticatorConfig && authenticatorConfig.isEnabled) {
                         // If configurations are not available for the moment, push to the end of the array.
                         if (authenticatorConfig.isComingSoon) {
+                            
                             moderated.push(authenticator);
 
                             return;
@@ -247,11 +245,6 @@ const IdentityProvidersPage: FunctionComponent<IDPPropsInterface> = (props: IDPP
                     response.filter((authenticator: AuthenticatorInterface) => {
                         // Removes hidden authenticators.
                         if (config?.ui?.hiddenAuthenticators?.includes(authenticator.name)) {
-                            return;
-                        }
-
-                        // TODO: Remove this filter to display SMS OTP once the backend changes are complete.
-                        if(authenticator.id === IdentityProviderManagementConstants.SMS_OTP_AUTHENTICATOR_ID){
                             return;
                         }
 
